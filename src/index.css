@@ -17,6 +17,42 @@ code {
   width: 80%;
 }
 
+.one-bg {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('diamond.png');
+  flex-grow: 1;
+  background-color: red;
+}
+
+.two-bg {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('diamond.png');
+  flex-grow: 1;
+  background-color: red;
+}
+
+.three-bg {
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('diamond.png');
+  flex-grow: 1;
+  background-color: red;
+}
+
+.color0 {
+  background-color: blue;
+}
+
+.pattern-container {
+  display: flex;
+  flex-grow: 1;
+}
+
 .game-container {
   display: flex;
   flex-direction: column;
@@ -29,11 +65,13 @@ code {
   height: 100%;
 }
 .square {
+  display: flex;
+  flex-direction: row;
   border: 1px solid black;
-  background-size: 50%;
+  /* background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('diamond.png');
+  background-image: url('diamond.png'); */
   flex-grow: 1;
   background-color: #12d;
 }

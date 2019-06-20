@@ -7,13 +7,49 @@ class Square extends React.Component {
   render() {
     return (
       <div className="square">
+        {this.renderPattern(this.props.value[0],this.props.value[1],this.props.value[2])}
       </div>
     );
+  }
+  renderPattern(i,c,s){
+      if (i==0){
+        return (
+          <div className="pattern-container">
+            <div className={"one-bg color"+c}/>
+          </div>
+        );
+      }
+      else if (i==1) {
+        return (
+          <div className="pattern-container">
+            <div className={"two-bg color"+c}/>
+            <div className={"two-bg color"+c}/>
+          </div>
+        );
+      }
+      else if (true) {
+        return (
+          <div className="pattern-container">
+            <div className={"three-bg color"+c}/>
+            <div className={"three-bg color"+c}/>
+            <div className={"three-bg color"+c}/>
+          </div>
+        );
+      }
+      return;
   }
 }
 
 
 class Grid extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      number: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      color: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      shade: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+    };
+  }
   render() {
     return (
       <div className = "game-container">
@@ -39,7 +75,7 @@ class Grid extends React.Component {
     );
   }
   renderSquare(i){
-    return <Square value={i}/>
+    return <Square value={[this.state.number[i],this.state.color[i],this.state.shade[i]]}/>
   }
 }
 
