@@ -1,4 +1,6 @@
 body {
+  display: flex;
+  justify-content: center;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -10,4 +12,28 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+#root {
+  width: 80%;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 600px;
+}
+.board-row {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+.square {
+  border: 1px solid black;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('diamond.png');
+  flex-grow: 1;
+  background-color: #12d;
 }
