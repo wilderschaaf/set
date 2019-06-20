@@ -21,7 +21,6 @@ code {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('diamond.png');
   flex-grow: 1;
   background-color: red;
 }
@@ -30,7 +29,6 @@ code {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('diamond.png');
   flex-grow: 1;
   background-color: red;
 }
@@ -39,13 +37,32 @@ code {
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
-  background-image: url('diamond.png');
   flex-grow: 1;
   background-color: red;
 }
 
 .color0 {
   background-color: blue;
+}
+
+.color1 {
+  background-color: red;
+}
+
+.color2 {
+  background-color: green;
+}
+
+.shape0 {
+  background-image: url('oval.png');
+}
+
+.shape1 {
+  background-image: url('rectangle.png');
+}
+
+.shape2 {
+  background-image: url('diamond.png');
 }
 
 .pattern-container {

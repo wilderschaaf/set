@@ -15,24 +15,24 @@ class Square extends React.Component {
       if (i==0){
         return (
           <div className="pattern-container">
-            <div className={"one-bg color"+c}/>
+            <div className={"one-bg color"+c+" shape"+s}/>
           </div>
         );
       }
       else if (i==1) {
         return (
           <div className="pattern-container">
-            <div className={"two-bg color"+c}/>
-            <div className={"two-bg color"+c}/>
+            <div className={"two-bg color"+c+" shape"+s}/>
+            <div className={"two-bg color"+c+" shape"+s}/>
           </div>
         );
       }
       else if (true) {
         return (
           <div className="pattern-container">
-            <div className={"three-bg color"+c}/>
-            <div className={"three-bg color"+c}/>
-            <div className={"three-bg color"+c}/>
+            <div className={"three-bg color"+c+" shape"+s}/>
+            <div className={"three-bg color"+c+" shape"+s}/>
+            <div className={"three-bg color"+c+" shape"+s}/>
           </div>
         );
       }
@@ -47,7 +47,7 @@ class Grid extends React.Component {
     this.state = {
       number: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
       color: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
-      shade: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      shape: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
     };
   }
   render() {
@@ -75,7 +75,7 @@ class Grid extends React.Component {
     );
   }
   renderSquare(i){
-    return <Square value={[this.state.number[i],this.state.color[i],this.state.shade[i]]}/>
+    return <Square value={[this.state.number[i],this.state.color[i],this.state.shape[i]]}/>
   }
 }
 
