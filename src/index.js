@@ -53,7 +53,7 @@ class Grid extends React.Component {
       shape: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
       fill: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
       clickedCount: 0,
-      clicked: Array.from({length:12}, () => ""),
+      clicked: Array.from({length:12}, () => "unclicked"),
     };
   }
   render() {
@@ -82,14 +82,44 @@ class Grid extends React.Component {
   }
 
   handleClick(i) {
-    const clicked = this.state.clicked.slice();
-    const clickedCount = this.state.clickedCount;
-    if (clickedCount === 2){
-       this.setState({clickedCount: 0});
+    var clicked = this.state.clicked.slice();
+    var clickedCount = this.state.clickedCount;
+    const number = this.state.number.slice();
+    const color = this.state.color.slice();
+    const shape = this.state.shape.slice();
+    const fill = this.state.fill.slice();
+    if (clickedCount === 2 && clicked[i]==="unclicked"){
+       clicked[i] = "clicked";
+       let index = getClickIndices(clicked);
+       console.log(checkSet([number,color,shape,fill],index))
+       if (checkSet([number,color,shape,fill],index)){
+         let i;
+         for (i = 0; i < 3; i++){
+           number[index[i]] = Math.floor(Math.random()*3);
+           color[index[i]] = Math.floor(Math.random()*3);
+           shape[index[i]] = Math.floor(Math.random()*3);
+           fill[index[i]] = Math.floor(Math.random()*3);
+         }
+       }
+       clicked = Array.from({length:12}, () => "unclicked");
+       this.setState({
+         clicked: clicked,
+         clickedCount: 0,
+         number: number,
+         color: color,
+         shape: shape,
+         fill: fill
+       });
        return;
     }
-    clicked[i] = (clicked[i]==="")?"clicked":"";
-    this.setState({clicked: clicked});
+    if (clicked[i]==="unclicked"){
+      clickedCount++;
+    }
+    else{
+      clickedCount--;
+    }
+    clicked[i] = (clicked[i]==="unclicked")?"clicked":"unclicked";
+    this.setState({clicked: clicked, clickedCount: clickedCount});
   }
 
   renderSquare(i){
@@ -106,16 +136,18 @@ class Deck extends React.Component {
 
 }
 
+/* TODO: add a time/score keeping feature and a reset button,
+may want to move some control up to this component*/
 class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <div className="game-board">
-          <Grid />
-        </div>
         <div className="deck">
           <div>{/* status */}</div>
           <ol>{/* TODO */}</ol>
+        </div>
+        <div className="game-board">
+          <Grid />
         </div>
       </div>
     );
@@ -126,3 +158,34 @@ ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+
+function checkSet(a,index){
+  let i;
+  for (i=0; i<4; i++){
+    if (!checkProp(a[i][index[0]],a[i][index[1]],a[i][index[2]])){
+      return false;
+    }
+  }
+  return true;
+}
+
+function checkProp(i,j,k){
+  if (i===j && j===k){
+    return true;
+  }
+  if (i!=j && i!=k && k!=j){
+    return true;
+  }
+  return false;
+}
+
+function getClickIndices(a){
+  let i;
+  let b = [];
+  for (i = 0; i < 12; i++){
+    if (a[i]==="clicked"){
+      b.push(i);
+    }
+  }
+  return b;
+}

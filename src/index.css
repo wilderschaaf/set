@@ -89,6 +89,13 @@ code {
   background-image: url('diamond-striped.png');
 }
 
+.clicked {
+  border: 1px solid yellow;
+}
+
+.unclicked {
+  border: 1px solid black;
+}
 
 .pattern-container {
   display: flex;
@@ -109,7 +116,6 @@ code {
 .square {
   display: flex;
   flex-direction: row;
-  border: 1px solid black;
   /* background-size: 50%;
   background-repeat: no-repeat;
   background-position: center;
