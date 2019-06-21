@@ -45,17 +45,6 @@ class Square extends React.Component {
 
 
 class Grid extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      number: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
-      color: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
-      shape: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
-      fill: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
-      clickedCount: 0,
-      clicked: Array.from({length:12}, () => "unclicked"),
-    };
-  }
   render() {
     return (
       <div className = "game-container">
@@ -80,6 +69,47 @@ class Grid extends React.Component {
       </div>
     );
   }
+  renderSquare(i){
+    return (
+      <Square
+        value={[this.props.number[i],this.props.color[i],this.props.shape[i],this.props.fill[i],this.props.clicked[i]]}
+        onClick={() => this.props.onClick(i)}
+      />
+    )
+  }
+}
+
+class Deck extends React.Component {
+
+}
+
+class Info extends React.Component {
+  render (){
+    return (
+      <div className = "info-panel">
+        <div className = "score">
+          Score: {this.props.score}
+        </div>
+      </div>
+    )
+  }
+}
+
+/* TODO: add a time/score keeping feature and a reset button,
+may want to move some control up to this component*/
+class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      number: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      color: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      shape: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      fill: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      clickedCount: 0,
+      clicked: Array.from({length:12}, () => "unclicked"),
+      score: 0,
+    };
+  }
 
   handleClick(i) {
     var clicked = this.state.clicked.slice();
@@ -100,6 +130,7 @@ class Grid extends React.Component {
            shape[index[i]] = Math.floor(Math.random()*3);
            fill[index[i]] = Math.floor(Math.random()*3);
          }
+         this.state.score++;
        }
        clicked = Array.from({length:12}, () => "unclicked");
        this.setState({
@@ -122,32 +153,21 @@ class Grid extends React.Component {
     this.setState({clicked: clicked, clickedCount: clickedCount});
   }
 
-  renderSquare(i){
-    return (
-      <Square
-        value={[this.state.number[i],this.state.color[i],this.state.shape[i],this.state.fill[i],this.state.clicked[i]]}
-        onClick={() => this.handleClick(i)}
-      />
-    )
-  }
-}
-
-class Deck extends React.Component {
-
-}
-
-/* TODO: add a time/score keeping feature and a reset button,
-may want to move some control up to this component*/
-class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <div className="deck">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
-        </div>
+        <Info
+          score = {this.state.score}
+        />
         <div className="game-board">
-          <Grid />
+          <Grid
+            number = {this.state.number}
+            color = {this.state.color}
+            shape = {this.state.shape}
+            fill = {this.state.fill}
+            clicked = {this.state.clicked}
+            onClick={(i) => this.handleClick(i)}
+          />
         </div>
       </div>
     );
