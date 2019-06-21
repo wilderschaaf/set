@@ -53,17 +53,42 @@ code {
   background-color: green;
 }
 
-.shape0 {
-  background-image: url('oval.png');
+.shape00 {
+  background-image: url('oval-hollow.png');
 }
 
-.shape1 {
-  background-image: url('rectangle.png');
+.shape10 {
+  background-image: url('rect-hollow.png');
 }
 
-.shape2 {
-  background-image: url('diamond.png');
+.shape20 {
+  background-image: url('diamond-hollow.png');
 }
+
+.shape01 {
+  background-image: url('oval-full.png');
+}
+
+.shape11 {
+  background-image: url('rect-full.png');
+}
+
+.shape21 {
+  background-image: url('diamond-full.png');
+}
+
+.shape02 {
+  background-image: url('oval-striped.png');
+}
+
+.shape12 {
+  background-image: url('rect-striped.png');
+}
+
+.shape22 {
+  background-image: url('diamond-striped.png');
+}
+
 
 .pattern-container {
   display: flex;

@@ -6,33 +6,36 @@ import './index.css';
 class Square extends React.Component {
   render() {
     return (
-      <div className="square">
-        {this.renderPattern(this.props.value[0],this.props.value[1],this.props.value[2])}
+      <div
+        className={"square "+this.props.value[4]}
+        onClick={() => this.props.onClick()}
+      >
+        {this.renderPattern(this.props.value[0],this.props.value[1],this.props.value[2],this.props.value[3])}
       </div>
     );
   }
-  renderPattern(i,c,s){
+  renderPattern(i,c,s,f){
       if (i==0){
         return (
           <div className="pattern-container">
-            <div className={"one-bg color"+c+" shape"+s}/>
+            <div className={"one-bg color"+c+" shape"+s+f}/>
           </div>
         );
       }
       else if (i==1) {
         return (
           <div className="pattern-container">
-            <div className={"two-bg color"+c+" shape"+s}/>
-            <div className={"two-bg color"+c+" shape"+s}/>
+            <div className={"two-bg color"+c+" shape"+s+f}/>
+            <div className={"two-bg color"+c+" shape"+s+f}/>
           </div>
         );
       }
       else if (true) {
         return (
           <div className="pattern-container">
-            <div className={"three-bg color"+c+" shape"+s}/>
-            <div className={"three-bg color"+c+" shape"+s}/>
-            <div className={"three-bg color"+c+" shape"+s}/>
+            <div className={"three-bg color"+c+" shape"+s+f}/>
+            <div className={"three-bg color"+c+" shape"+s+f}/>
+            <div className={"three-bg color"+c+" shape"+s+f}/>
           </div>
         );
       }
@@ -48,6 +51,9 @@ class Grid extends React.Component {
       number: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
       color: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
       shape: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      fill: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      clickedCount: 0,
+      clicked: Array.from({length:12}, () => ""),
     };
   }
   render() {
@@ -74,8 +80,25 @@ class Grid extends React.Component {
       </div>
     );
   }
+
+  handleClick(i) {
+    const clicked = this.state.clicked.slice();
+    const clickedCount = this.state.clickedCount;
+    if (clickedCount === 2){
+       this.setState({clickedCount: 0});
+       return;
+    }
+    clicked[i] = (clicked[i]==="")?"clicked":"";
+    this.setState({clicked: clicked});
+  }
+
   renderSquare(i){
-    return <Square value={[this.state.number[i],this.state.color[i],this.state.shape[i]]}/>
+    return (
+      <Square
+        value={[this.state.number[i],this.state.color[i],this.state.shape[i],this.state.fill[i],this.state.clicked[i]]}
+        onClick={() => this.handleClick(i)}
+      />
+    )
   }
 }
 
