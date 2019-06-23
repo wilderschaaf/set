@@ -7,7 +7,7 @@ class Square extends React.Component {
   render() {
     return (
       <div
-        className={"square "+this.props.value[4]}
+        className={"square "+this.props.clicked}
         onClick={() => this.props.onClick()}
       >
         {this.renderPattern(this.props.value[0],this.props.value[1],this.props.value[2],this.props.value[3])}
@@ -72,7 +72,8 @@ class Grid extends React.Component {
   renderSquare(i){
     return (
       <Square
-        value={[this.props.number[i],this.props.color[i],this.props.shape[i],this.props.fill[i],this.props.clicked[i]]}
+        value={this.props.card[i]}
+        clicked={this.props.clicked[i]}
         onClick={() => this.props.onClick(i)}
       />
     )
@@ -101,10 +102,11 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      number: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
-      color: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
-      shape: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
-      fill: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      // number: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      // color: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      // shape: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      // fill: Array.from({length: 12}, () => Math.floor(Math.random() * 3)),
+      card: makeRandUniqueArray(),
       clickedCount: 0,
       clicked: Array.from({length:12}, () => "unclicked"),
       score: 0,
@@ -114,21 +116,30 @@ class Game extends React.Component {
   handleClick(i) {
     var clicked = this.state.clicked.slice();
     var clickedCount = this.state.clickedCount;
-    const number = this.state.number.slice();
-    const color = this.state.color.slice();
-    const shape = this.state.shape.slice();
-    const fill = this.state.fill.slice();
+    // const number = this.state.number.slice();
+    // const color = this.state.color.slice();
+    // const shape = this.state.shape.slice();
+    // const fill = this.state.fill.slice();
+    const card = this.state.card.slice();
     if (clickedCount === 2 && clicked[i]==="unclicked"){
        clicked[i] = "clicked";
        let index = getClickIndices(clicked);
-       console.log(checkSet([number,color,shape,fill],index))
-       if (checkSet([number,color,shape,fill],index)){
+       console.log(checkSet(card,index))
+       if (checkSet(card,index)){
          let i;
+         let inarr;
          for (i = 0; i < 3; i++){
-           number[index[i]] = Math.floor(Math.random()*3);
-           color[index[i]] = Math.floor(Math.random()*3);
-           shape[index[i]] = Math.floor(Math.random()*3);
-           fill[index[i]] = Math.floor(Math.random()*3);
+           // number[index[i]] = Math.floor(Math.random()*3);
+           // color[index[i]] = Math.floor(Math.random()*3);
+           // shape[index[i]] = Math.floor(Math.random()*3);
+           // fill[index[i]] = Math.floor(Math.random()*3);
+           inarr = Array.from({length:4}, () => Math.floor(Math.random()*3));
+           if (isInArray(card,inarr)){
+
+             i--;
+             continue;
+           }
+           card[index[i]] = inarr;
          }
          this.state.score++;
        }
@@ -136,10 +147,11 @@ class Game extends React.Component {
        this.setState({
          clicked: clicked,
          clickedCount: 0,
-         number: number,
-         color: color,
-         shape: shape,
-         fill: fill
+         // number: number,
+         // color: color,
+         // shape: shape,
+         // fill: fill,
+         card: card,
        });
        return;
     }
@@ -161,10 +173,11 @@ class Game extends React.Component {
         />
         <div className="game-board">
           <Grid
-            number = {this.state.number}
-            color = {this.state.color}
-            shape = {this.state.shape}
-            fill = {this.state.fill}
+            // number = {this.state.number}
+            // color = {this.state.color}
+            // shape = {this.state.shape}
+            // fill = {this.state.fill}
+            card = {this.state.card}
             clicked = {this.state.clicked}
             onClick={(i) => this.handleClick(i)}
           />
@@ -182,7 +195,7 @@ ReactDOM.render(
 function checkSet(a,index){
   let i;
   for (i=0; i<4; i++){
-    if (!checkProp(a[i][index[0]],a[i][index[1]],a[i][index[2]])){
+    if (!checkProp(a[index[0]][i],a[index[1]][i],a[index[2]][i])){
       return false;
     }
   }
@@ -208,4 +221,33 @@ function getClickIndices(a){
     }
   }
   return b;
+}
+
+function makeRandUniqueArray () {
+  var count = 0;
+  var outarr = [];
+  var inarr;
+  var i;
+  for (i = 0; i < 12;i++){
+    inarr = Array.from({length: 4}, () => Math.floor(Math.random() * 3));
+    if (isInArray(outarr,inarr)){
+      i--;
+      continue;
+    }
+    outarr.push(inarr);
+  }
+  return outarr;
+}
+
+function isInArray(haystack, needle){
+  var i, j, current;
+  for(i = 0; i < haystack.length; ++i){
+    if(needle.length === haystack[i].length){
+      current = haystack[i];
+      for(j = 0; j < needle.length && needle[j] === current[j]; ++j);
+      if(j === needle.length)
+        return true;
+    }
+  }
+  return false;
 }
